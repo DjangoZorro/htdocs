@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Room index{% endblock %}
+
+{% block body %}
+    <h1>Room index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Price</th>
+                <th>Image File</th>
+                <th>Extra</th>
+                <th>Extra Price</th>
+                <th>Type</th>
+                <th>Type Price</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for room in rooms %}
+            <tr>
+                <td>{{ room.id }}</td>
+                <td>{{ room.price }}</td>
+                <td>
+                  {% for image in room.image %}
+                    <img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" style="width:25%;">
+                  {% endfor %}
+                </td>
+                <td>
+                  {% for extra in extras %}
+                    {{ extra.description }}
+                  {% endfor %}
+                </td>
+                <td>
+                  {% for extra in extras %}
+                    {{ extra.extraPrice }}
+                  {% endfor %}
+                </td>
+                <td>
+                  {% for type in types %}
+                    {{ type.description }}
+                  {% endfor %}
+                </td>
+                <td>
+                  {% for type in types %}
+                    {{ type.extraPrice }}
+                  {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('room_show', {'id': room.id}) }}">show</a>
+                    <a href="{{ path('room_edit', {'id': room.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('room_new') }}">Create new</a>
+{% endblock %}
